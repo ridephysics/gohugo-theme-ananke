@@ -20,7 +20,12 @@
     {{ end }}
 
     {{ range .Site.Params.custom_css }}
-      <link rel="stylesheet" href="{{ . | relURL }}">
+      {{ if hasPrefix . "assets/" }}
+        {{ $style := resources.Get (substr . 7) | resources.ToCSS | resources.Minify | resources.Fingerprint }}
+        <link rel="stylesheet" href="{{ $style.Permalink }}">
+      {{ else }}
+        <link rel="stylesheet" href="{{ . | relURL }}">
+      {{ end }}
     {{ end }}
 
     {{ block "favicon" . }}
