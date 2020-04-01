@@ -1,3 +1,6 @@
+{{ range .Site.Params.custom_js }}
+  <script src="{{ . | relURL }}"></script>
+{{ end }}
 {{ $script := .Site.Data.webpack_assets.app }}
 {{ with $script.js }}
   <script src="{{ relURL (printf "%s%s" "dist/" .) }}"></script>
